@@ -1,0 +1,45 @@
+REGRAS DE NEGOCIOS - AGORA EU CASO
+
+TABELA LOGIN -> Toda a tabela deve ser preenchida com os dados NOME_LOGIN, NOME_SENHA, EMAIL_RESERVA e NIVEL_ACESSO;
+1º regra -> Existem 3 niveis de acesso: 1 = Administrador, 2 = Cliente e 3 = Fornecedor.
+2º regra -> Só podem existir 5 logins com nivel de acesso 1. Não existe limite de logins com niveis de acesso 2 e 3.
+
+TABELA CLIENTE -> Toda a tabela deve ser preenchida com os dados CPF, NOME, SEXO, TELEFONE E NACIONALIDADE
+
+TABELA FORNECEDOR -> Toda a tabela deve ser preenchida com os dados NOME, TIPO_SERVICO, PREÇO_SERVICO e DESCRICAO_SERVICO
+
+TABELA ENDEREÇO -> Toda a tabela deve ser preenchida com os dados RUA, NUMERO_CASA, BAIRRO, COMPLEMENTO, REFERENCIA, CIDADE, CEP, ESTADO e SIGLA;
+1º regra -> Os campos fkEnderecoCliente e fkEnderecoFornecedor fazem referencia as tabelas CLIENTE e FORNECEDOR. 
+Um cliente pode ou não ser um fornecedor. Um fornecedor pode ou não ser um cliente. Isso significa que 1 endereço pode ser vinculado a 1 cliente e a 1 fornecedor, mas não que seja obrigatório o vinculo.
+2º regra -> Se o endereço for vinculado a um fornecedor, deve verificar se o nivel de acesso de login é 3. Se o endereço for vinculado a um cliente, deve verificar se o nivel de acesso de login é 2.
+
+TABELA OFERTA ->  Toda a tabela deve ser preenchida com os dados TIPO_DE_OFERTA, PRECO_PROMOCIONAL e VALIDADE_OFERTA
+1º regra -> Os campos fkOfertaFornecedor e fkOfertaCliente fazem referencia as tabelas CLIENTE e FORNECEDOR. 
+2º regra -> Se a oferta for de um fornecedor, o campo TIPO_OFERTA equivale ao tipo de oferta que vai ser oferecido, exemplo uma "promoção", "oferta de black friday", etc. E o campo PRECO_PROMOCIONAL equivale ao preço que será oferecido naquela oferta.
+3º regra -> Um cliente pode fazer uma oferta de preço a um fornecedor. Se a oferta for de um cliente, o campo TIPO_OFERTA equivale ao tipo de oferta "negociação" e o campo PRECO_PROMOCIONAL equivale ao preço que o cliente está negociando com o fornecedor.
+4º regra -> Um fornecedor não é obrigado a aceitar uma oferta de um cliente, assim como um cliente não é obrigado a aceitar uma oferta de um fornecedor.
+
+TABELA PAGAMENTO -> Toda a tabela deve ser preenchida com os campos TIPO_PAGAMENTO
+1º regra -> O campo TIPO_PAGAMENTO equivale ao tipo de pagamento que o cliente escolher para pagar: cartão, boleto ou pix.
+
+TABELA BOLETO -> Toda a tabela deve ser preenchida com os campos CODIGO_BOLETO, NOME_RECEBEDOR, NUMERO_BOLETO e VALOR_BOLETO
+
+TABELA PIX -> Toda a tabela deve preenchida com os campos CHAVE_PIX, AGENCIA, CONTA, NOME_RECEBEDOR e BANCO
+
+TABELA CARTAO -> Toda a tabela deve ser preenchida com os campos TIPO, NUMERO_CARTAO, VALIDADE e CVV
+1º regra -> O cartão cadastrado é vinculado somente a cliente. 1 cartão pode ser vinculado a mais de um cliente. 1 cliente pode ter mais de um cartão vinculado.
+2º regra -> O campo TIPO equivale ao tipo de cartão. Só pode ser preenchido com os dados "Credito" ou "Debito"; qualquer outra tentativa será invalida.
+3º regra -> A validade do cartão deve ser maior que a data atual; 
+
+TABELA CONTRATO -> Toda a tabela deve ser preenchida com os campos DATA_CONTRATO e VALIDADE_CONTRATO
+1º regra -> Os campos fkContratoCliente, fkContratoFornecedor, fkOferta, fkPagamento fazem referencia as tabelas CLIENTE, FORNECEDOR, OFERTA e PAGAMENTO.
+2º regra -> Um contrato pode ou não conter dados de uma oferta. 
+3º regra -> Um contrato deve conter os dados do cliente, fornecedor e forma de pagamento.
+4º regra -> O campo DATA_CONTRATO equivale a data em que o contrato foi firmado.
+5º regra -> O campo VALIDADE_CONTRATO equivale a data de validade do contrato firmado.
+6º regra -> Se um contrato for fechado com meio de pagamento por cartão, a data de validade do cartão não pode ser menor que a data do contrato.
+
+TABELA SUPORTE -> Toda a tabela deve ser preenchida com os campos TICKET, DATA_TICKET, DESCRICAO_SUPORTE
+1º regra -> Um chamado de suporte pode ser aberto por um cliente ou por um fornecedor.
+2º regra -> O campo TICKET equivale ao codigo do chamado aberto.
+3º regra -> A tabela suporte serve para armazenar os chamados de suporte. Por isso, se existe um chamado, é obrigatório vincular esse chamado a alguém (cliente ou fornecedor)
